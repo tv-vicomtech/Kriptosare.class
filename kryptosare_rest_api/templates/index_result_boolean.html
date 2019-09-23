@@ -1,0 +1,19 @@
+{% extends "index2.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+<div style="width:100%;">
+  </div>
+    <div style="float:left;">
+      <p style="margin-left: 20px"><b>Address: </b>{{result_add}}</p>
+      <p style="margin-left: 20px"><b> Label: </b>{{result_ent}}</p>
+      <p style="margin-left: 20px"><b> Entity Class: </b>{{result_class}}</p>
+      <p style="margin-left: 20px"><b> Confidence: </b>{{result_conf}}</p>
+      <p style="margin-left: 20px"><b> Result: </b>{{result_bool}}</p>
+    <div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "index.js" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+
+<div>
+  <div class="container">
+      <div class="row">
+          <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+            <div class="features-icons-icon d-flex">
+            	<table class="table table-dark">
+  				<thead>
+					<td><font color="#187">NAME</font></td>
+					<td><font color="#187">ABBR.</font></td>
+					<td><font color="#187">CURRENCY</font></td>
+					<td><font color="#187">LABEL</font></td>
+  				</thead>
+			    {% for ll in result %}
+			    <tr>
+			    	<td>
+ 				 {{ ll.name}}
+ 				</td>
+ 				<td align="center">
+ 				 {{ ll.abbreviation}}
+ 				</td>
+ 				<td align="center">
+ 				 {{ ll.currency}}
+ 				</td>
+ 				<td align="center">
+ 				 {{ ll.label}}
+ 				</td>
+ 				</tr>
+				{% endfor %}
+				</table>
+            </div>
+        </div>
+</div>
+
+{% endblock %}
