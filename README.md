@@ -5,10 +5,11 @@ The tool is composed by Wallet downloader, Behaviour trainer, Behaviour predicto
 
 ### 1 - Wallet downloader
 Install Bitcoin Core:
+```
 	> apt-add-repository ppa:bitcoin/bitcoin
 	> apt-get update
 	> apt-get install bitcoin-qt
-
+```
 Execute the bitcoin daemon with the option rest
 > bitcoind conf=.bitcoin/bitcoin.conf -rest=1
 
