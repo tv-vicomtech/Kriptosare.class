@@ -12,8 +12,6 @@ import server_queries
 
 app = Flask(__name__)
 
-#cluster= Cluster(['10.200.5.39'])
-
 
 def create_plot(predict):
 	labels = ['Exchange','Gambling','Market','Pool','Mixer','Service']
