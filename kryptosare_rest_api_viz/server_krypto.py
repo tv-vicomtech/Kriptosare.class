@@ -7,7 +7,7 @@ import json
 
 import requests
 
-url = 'http://10.200.5.39:5000'
+url = 'http://10.200.10.5:5000'
 headers = {'Content-Type': 'application/json'}
 
 app = Flask(__name__)
@@ -17,8 +17,8 @@ def server_app():
 	return render_template('index.js')
 
 
-@app.route('/test', methods=['POST'])
-def test():
+@app.route('/classification', methods=['POST'])
+def classification():
 	label=request.form['label_opt']
 	if(label=="first"):
 		r=first()
@@ -32,12 +32,12 @@ def test():
 			predict[0]=round(pp['exchange'],4)
 			predict[1]=round(pp['gambling'],4)
 			predict[2]=round(pp['market'],4)
-			predict[3]=round(pp['pool'],4)
+			predict[3]=round(pp['miner'],4)
 			predict[4]=round(pp['mixer'],4)
 			predict[5]=round(pp['service'],4)
 			bar = create_plot(predict)
 			#return render_template('index_result1.html', plot=bar, result=r_json['result'])
-			return render_template('index_result1.html', plot=bar, result=p1['result'])
+			return render_template('index_result1.html', plot=bar, result=p1['result'],address=r_json['key'],version=r_json['version'])
 		else:
 			#return render_template('index_error.html', result=r_json['message'])
 			return render_template('index_error.html', result=p1['message'])
@@ -61,7 +61,7 @@ def test():
 		if (p1['error']==0):
 		#if(r_json['error']==0):
 			#return render_template('index_result3.html', result=r_json['result'])
-			return render_template('index_result3.html', result=p1['result']['value'])
+			return render_template('index_result3.html', result=p1['result']['value'], confidence=p1['confidence'],address=r_json['key'],version=r_json['version'],tag=r_json['tag_optional'])
 		else:
 			#return render_template('index_error.html', result=r_json['message'])
 			return render_template('index_error.html', result=p1['message'])

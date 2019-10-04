@@ -83,7 +83,7 @@
   <div class="container" style="min-height: 250px;">
       <div class="row">
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form action = "/test" method = "POST">
+          <form action = "/classification" method = "POST">
             <input type="hidden" id="label_opt" name="label_opt" value="first">
               <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">Start!</button>
@@ -93,10 +93,17 @@
                 <input type="text" name="address" id="address" class="form-control form-control-lg" placeholder="Bitcoin Address">
               </div>
               <div class="col-12 col-md-9 mb-2 mb-md-2">
-                <input type="text" name="class" id="class" class="form-control form-control-lg" placeholder="class">
+              <select name="class" id="class"  class="form-control form-control-lg" placeholder="class">
+      			  <option value="exchange">exchange</option>
+      			  <option value="gambling">gambling</option>
+      			  <option value="mixer">mixer</option>
+      			  <option value="miner">miner</option>
+      			  <option value="market">market</option>
+      			  <option value="service">service</option>
+      			</select>
               </div>
                 <div class="col-12 col-md-9 mb-2 mb-md-2">
-                <input type="text" name="confidence" id="confidence"  class="form-control form-control-lg" placeholder="confidence">
+                <input type="number" name="confidence" id="confidence" min="1" max="100"  class="form-control form-control-lg" placeholder="confidence">
               </div>
             </div>
           </form>
