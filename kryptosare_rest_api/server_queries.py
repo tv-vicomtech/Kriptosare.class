@@ -1,7 +1,7 @@
 from cassandra.cluster import Cluster
 import uuid
 
-cluster= Cluster(['10.200.5.39'],port=9042)
+cluster= Cluster(['XX.XX.XX.XX'],port=9042)
 session = cluster.connect()
 
 def getAddressEvaluation(adds,cash):
