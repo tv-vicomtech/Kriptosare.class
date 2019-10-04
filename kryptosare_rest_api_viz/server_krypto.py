@@ -7,7 +7,7 @@ import json
 
 import requests
 
-url = 'http://10.200.10.5:5000'
+url = 'XX.XX.XX.XX'
 headers = {'Content-Type': 'application/json'}
 
 app = Flask(__name__)
