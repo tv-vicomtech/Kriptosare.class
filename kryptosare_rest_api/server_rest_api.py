@@ -10,6 +10,17 @@ app = Flask(__name__)
 def api_root():
 	return 'Welcome'
 
+
+@app.route('/database_update', methods=['GET','POST'])
+def post_database_update():
+	tag_name = "Cluster updated"
+	val = server_queries.createinicialjson(request.json,tag_name)
+	json_req = server_queries.getUpdates()
+	val2 = {"custom_properties":{"error":0,"message":"","result":json_req}}
+	val = {**val,**val2}
+	return jsonify(val)
+
+
 @app.route('/search_address', methods=['GET','POST'])
 def search_address():
 	tag_name = "Address Classification"

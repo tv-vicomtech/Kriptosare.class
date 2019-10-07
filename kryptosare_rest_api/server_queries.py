@@ -1,7 +1,7 @@
 from cassandra.cluster import Cluster
 import uuid
 
-cluster= Cluster(['XX.XX.XX.XX'],port=9042)
+cluster= Cluster(['10.200.10.6'],port=9042)
 session = cluster.connect()
 
 def getAddressEvaluation(adds,cash):
@@ -141,6 +141,17 @@ def first100useraddresses(user,cash):
 	else:
 		result = {"tag_optional":{"currency":cash},"custom_properties":{"error":0,"message":"User not found","result":""}}
 		return result
+
+def getUpdates():
+	session.execute('USE kryptosare')
+	query = "SELECT * FROM cluster_update LIMIT 1"
+	future = session.execute_async(query, [])
+	rows = future.result()
+	if(not rows):
+		result = {"timestamp":"100000000","block":"0"}
+	else:
+		result = {"timestamp":rows[0].timestamp,"block":rows[0].block}
+	return result
 
 
 def createinicialjson(request,tag_name):
