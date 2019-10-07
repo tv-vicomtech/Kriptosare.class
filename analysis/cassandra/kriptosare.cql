@@ -22,6 +22,13 @@ CREATE TABLE address (
     sibling double 
 );
 
+CREATE TABLE cluster_update (
+block bigint,
+ timestamp timestamp,
+  data text,
+   PRIMARY KEY(data,block))
+    WITH CLUSTERING ORDER BY (block DESC);
+
 CREATE TABLE entity (
     label int,
     user text PRIMARY KEY,
