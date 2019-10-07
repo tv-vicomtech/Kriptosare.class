@@ -112,7 +112,7 @@
     </div>
    </div>
   </header>
-  <div style="margin-left: 10px;"><p><a href="#">Here</a> is possible find information about the accuracy of the classifier and implementation notes<br>Updated until February 5th 2019, 08:13:31 AM, blocks=561.620, Total number addresses in cluster 16.134.407, Total number entities in cluster 311</p></div>
+  <div style="margin-left: 10px;"><p><a href="#">Here</a> is possible find information about the accuracy of the classifier and implementation notes<br>Updated until {{date.timestamp}}, blocks={{date.block}}</p></div>
    <!-- result search -->
 <br><br>
 <div id="content">{% block content %}{% endblock %}</div>

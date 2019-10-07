@@ -4,21 +4,30 @@ import plotly.graph_objs as go
 
 #import pandas as pd
 import json
+from flask import session
 
 import requests
 
-url = 'XX.XX.XX.XX'
+url = 'http://150.241.253.62:5000'
 headers = {'Content-Type': 'application/json'}
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
+
 
 @app.route('/')
 def server_app():
-	return render_template('index.js')
+	r = database()
+	field= r.json()
+	tt=field['custom_properties']
+	print(tt)
+	session['time'] = tt
+	return render_template('index.js',date=tt['result'])
 
 
 @app.route('/classification', methods=['POST'])
 def classification():
+	tt= session.get('time')
 	label=request.form['label_opt']
 	if(label=="first"):
 		r=first()
@@ -37,10 +46,10 @@ def classification():
 			predict[5]=round(pp['service'],4)
 			bar = create_plot(predict)
 			#return render_template('index_result1.html', plot=bar, result=r_json['result'])
-			return render_template('index_result1.html', plot=bar, result=p1['result'],address=r_json['key'],version=r_json['version'])
+			return render_template('index_result1.html',date=tt['result'], plot=bar, result=p1['result'],address=r_json['key'],version=r_json['version'])
 		else:
 			#return render_template('index_error.html', result=r_json['message'])
-			return render_template('index_error.html', result=p1['message'])
+			return render_template('index_error.html',date=tt['result'], result=p1['message'])
 
 	elif(label=="second"):
 		r=second()
@@ -49,10 +58,10 @@ def classification():
 		p1 = r_json['custom_properties']
 		if (p1['error']==0):
 			#return render_template('index_result2.html', result=r_json['result'])
-			return render_template('index_result2.html', result=p1['result'])
+			return render_template('index_result2.html',date=tt['result'], result=p1['result'])
 		else:
 			#return render_template('index_error.html', result=r_json['message'])
-			return render_template('index_error.html', result=p1['message'])
+			return render_template('index_error.html',date=tt['result'], result=p1['message'])
 
 	elif(label=="third"):
 		r=third()
@@ -61,10 +70,15 @@ def classification():
 		if (p1['error']==0):
 		#if(r_json['error']==0):
 			#return render_template('index_result3.html', result=r_json['result'])
-			return render_template('index_result3.html', result=p1['result']['value'], confidence=p1['confidence'],address=r_json['key'],version=r_json['version'],tag=r_json['tag_optional'])
+			return render_template('index_result3.html',date=tt['result'], result=p1['result']['value'], confidence=p1['confidence'],address=r_json['key'],version=r_json['version'],tag=r_json['tag_optional'])
 		else:
 			#return render_template('index_error.html', result=r_json['message'])
-			return render_template('index_error.html', result=p1['message'])
+			return render_template('index_error.html',date=tt['result'], result=p1['message'])
+
+def database():
+	data = {"uuid": "{}","version": 1,"key_type": "a", "key": "t","tag": "","contributor": "","tag_optional": {"currency": "BTC"}}
+	response = requests.post(url+'/database_update', json=data)
+	return response
 
 def first():
 	address=request.form['address']
