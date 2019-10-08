@@ -29,6 +29,10 @@ block bigint,
    PRIMARY KEY(data,block))
     WITH CLUSTERING ORDER BY (block DESC);
 
+CREATE TABLE cluster (
+	address text PRIMARY KEY,
+ 	user text);
+
 CREATE TABLE entity (
     label int,
     user text PRIMARY KEY,
