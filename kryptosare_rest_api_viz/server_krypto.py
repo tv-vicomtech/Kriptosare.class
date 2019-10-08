@@ -8,7 +8,7 @@ from flask import session
 
 import requests
 
-url = 'http://150.241.253.62:5000'
+url = 'http://XXX.XXX.XXX.XXX:5000'
 headers = {'Content-Type': 'application/json'}
 
 app = Flask(__name__)
