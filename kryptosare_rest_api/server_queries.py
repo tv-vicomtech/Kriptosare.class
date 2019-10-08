@@ -8,7 +8,7 @@ def getAddressEvaluation(adds,cash):
 	cash = cash.upper()
 	if (cash == 'BTC'):
 		session.execute('USE kryptosare')
-		query = "SELECT user FROM address WHERE address=%s"
+		query = "SELECT user FROM cluster WHERE address=%s"
 		future = session.execute_async(query, [adds])
 		rows = future.result()
 		if(not rows):
@@ -41,7 +41,7 @@ def classificationChecker(adds,cash,aclass,aconf):
 		elif aclass=='ser': actor="Service";
 		else: actor="";
 		session.execute('USE kryptosare')
-		query = "SELECT user FROM address WHERE address=%s"
+		query = "SELECT user FROM cluster WHERE address=%s"
 		future = session.execute_async(query, [adds])
 		rows = future.result()
 		if(not rows):
