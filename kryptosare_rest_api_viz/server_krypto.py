@@ -1,14 +1,13 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request, Response
 import plotly
 import plotly.graph_objs as go
-
-#import pandas as pd
+from werkzeug import secure_filename
 import json
 from flask import session
 
 import requests
 
-url = 'http://XXX.XXX.XXX.XXX:5000'
+url = 'http://'
 headers = {'Content-Type': 'application/json'}
 
 app = Flask(__name__)
@@ -20,9 +19,45 @@ def server_app():
 	r = database()
 	field= r.json()
 	tt=field['custom_properties']
-	print(tt)
 	session['time'] = tt
+	session['r_json'] = []
 	return render_template('index.js',date=tt['result'])
+
+@app.route('/import_function', methods=['POST'])
+def import_function():
+	tt= session.get('time')
+	if 'json_file' not in request.files:
+		return render_template('index_error.html', date=tt['result'], result="File not found!")
+	json_file = request.files['json_file']
+	if json_file.filename =="":
+		return render_template('index_error.html', date=tt['result'], result="Namefile error!")
+	strg=json_file.read()
+	data = json.loads(strg)
+	response = requests.post(url+'/search_jsondata', json=data[0])
+	r_json = response.json()
+	p1 = r_json['custom_properties']
+	if (p1['error'] == 0):
+		pp = p1['result']
+		predict = [0] * 6
+		predict[0] = round(pp['exchange'], 4)
+		predict[1] = round(pp['gambling'], 4)
+		predict[2] = round(pp['market'], 4)
+		predict[3] = round(pp['miner'], 4)
+		predict[4] = round(pp['mixer'], 4)
+		predict[5] = round(pp['service'], 4)
+		bar = create_plot(predict)
+		session['r_json'] = r_json
+		return render_template('index_result1.html', date=tt['result'], plot=bar, result=p1['result'],address=r_json['key'], version=p1['classifier'])
+	else:
+		session['r_json'] = r_json
+		return render_template('index_error.html', date=tt['result'], result=p1['message'])
+
+
+@app.route('/export_function', methods=['POST'])
+def export_function():
+	r_json = session.get('r_json')
+	array_json='['+json.dumps(r_json)+']'
+	return Response(array_json, mimetype="application/json", headers={"Content-disposition": "attachment; filename = kryptoanalytics.json"})
 
 
 @app.route('/classification', methods=['POST'])
@@ -46,8 +81,10 @@ def classification():
 			predict[5]=round(pp['service'],4)
 			bar = create_plot(predict)
 			#return render_template('index_result1.html', plot=bar, result=r_json['result'])
-			return render_template('index_result1.html',date=tt['result'], plot=bar, result=p1['result'],address=r_json['key'],version=r_json['version'])
+			session['r_json'] = r_json
+			return render_template('index_result1.html',date=tt['result'], plot=bar, result=p1['result'],address=r_json['key'],version=p1['classifier'])
 		else:
+			session['r_json'] = r_json
 			#return render_template('index_error.html', result=r_json['message'])
 			return render_template('index_error.html',date=tt['result'], result=p1['message'])
 
@@ -70,7 +107,7 @@ def classification():
 		if (p1['error']==0):
 		#if(r_json['error']==0):
 			#return render_template('index_result3.html', result=r_json['result'])
-			return render_template('index_result3.html',date=tt['result'], result=p1['result']['value'], confidence=p1['confidence'],address=r_json['key'],version=r_json['version'],tag=r_json['tag_optional'])
+			return render_template('index_result3.html',date=tt['result'], result=p1['result']['value'], confidence=p1['confidence'],address=r_json['key'],version=p1['classifier'],tag=r_json['tag_optional'])
 		else:
 			#return render_template('index_error.html', result=r_json['message'])
 			return render_template('index_error.html',date=tt['result'], result=p1['message'])

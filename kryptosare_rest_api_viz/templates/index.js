@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Landing Page - Start Bootstrap Theme</title>
+  <title>Kriptosare.class - Bitcoin Entity Classifier</title>
 
   <!-- Bootstrap core CSS -->
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -18,6 +18,7 @@
   $(document).ready(function(){
   	$("#class").hide();
 	$("#address").show();
+	$("#import").show();
 	$("#confidence").hide();
 	$("#label_opt").val("first");
   $('input[name="optradio"]').click(function(){
@@ -25,12 +26,14 @@
     if(val=="first"){
       $("#class").hide();
       $("#address").show();
+      $("#import").show();
       $("#confidence").hide();
       $("#label_opt").val("first");
     }
     if(val=="second"){
       $("#class").hide();
       $("#address").hide();
+      $("#import").hide();
       $("#confidence").hide();
       $("#label_opt").val("second");
 
@@ -38,6 +41,7 @@
     if(val=="third"){
       $("#class").show();
       $("#address").show();
+      $("#import").hide();
       $("#confidence").show();
       $("#label_opt").val("third");
     }
@@ -69,13 +73,13 @@
     <div class="container">
       <div class="row">
       <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-      <div class="radio form-check-inline" style="float:left; margin-left:10px">
+      <div class="radio form-check-inline" style="float:center; margin-left:10px">
       <label><input type="radio"  id="optradio1" name="optradio" value="first" checked>CLASSIFIER</label>
       </div>
-      <div class="radio form-check-inline" style="float:left; margin-left:10px">
+      <div class="radio form-check-inline" style="float:center; margin-left:10px">
       <label><input type="radio"  id="optradio2" name="optradio" value="second">LIST CLASS</label>
       </div>
-      <div class="radio form-check-inline" style="float:left; margin-left:10px">
+      <div class="radio form-check-inline" style="float:center; margin-left:10px">
       <label><input type="radio"  id="optradio3" name="optradio" value="third">CONFIDENCE</label>
       </div>
     </div>
@@ -85,14 +89,17 @@
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form action = "/classification" method = "POST">
             <input type="hidden" id="label_opt" name="label_opt" value="first">
-              <div class="col-12 col-md-3">
+              <div class="container">
+              <div style="width:25%;  margin:0 auto;">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">Start!</button>
               </div>
+               </div>
+               <br>
             <div class="form-row">
-              <div class="col-12 col-md-9 mb-2 mt-2 mb-md-2">
+              <div style="width:80%;  margin:0 auto;">
                 <input type="text" name="address" id="address" class="form-control form-control-lg" placeholder="Bitcoin Address">
               </div>
-              <div class="col-12 col-md-9 mb-2 mb-md-2">
+              <div class="mt-2" style="width:80%;  margin:0 auto;">
               <select name="class" id="class"  class="form-control form-control-lg" placeholder="class">
       			  <option value="exchange">exchange</option>
       			  <option value="gambling">gambling</option>
@@ -102,17 +109,37 @@
       			  <option value="service">service</option>
       			</select>
               </div>
-                <div class="col-12 col-md-9 mb-2 mb-md-2">
+                <div class="mt-2" style="width:80%;  margin:0 auto;">
                 <input type="number" name="confidence" id="confidence" min="1" max="100"  class="form-control form-control-lg" placeholder="confidence">
               </div>
             </div>
           </form>
         </div>
+        <div class="container mt-2" id="import" >
+        <div class="row">
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+        <form action="import_function" method="post" enctype="multipart/form-data">
+        <div class="col-12 col-md-3">
+             <input type="file"  id="json_file" name="json_file">
+          </div>
+          <div class="col-12 col-md-3 mt-2" style="display: inline-block;">
+				<button type="submit" id="import_btn" class="btn btn-block btn-lg btn-primary"">Import!</button>
+			</div>
+		</form>
+		 <form action="export_function" method="post">
+           <div class="col-12 col-md-3 mt-2" id="export_btn" style="display: inline-block;">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">Export!</button>
+            </div>
+         </form>
+
+          </div>
+            </div>
+              </div>
       </div>
     </div>
    </div>
   </header>
-  <div style="margin-left: 10px;"><p><a href="#">Here</a> is possible find information about the accuracy of the classifier and implementation notes<br>Updated until {{date.timestamp}}, blocks={{date.block}}</p></div>
+  <div style="margin-left: 10px;"><p><a href="https://arxiv.org/abs/1910.06560">Here</a> is possible find information about the accuracy of the classifier and implementation notes<br>Updated until {{date.timestamp}}, blocks={{date.block}}</p></div>
    <!-- result search -->
 <br><br>
 <div id="content">{% block content %}{% endblock %}</div>
