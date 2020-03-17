@@ -14,7 +14,7 @@ The Interface allows users to choose which calls to compute by selecting a radio
 ### First Call (Search Address)
 The user must indicate the address he wants to look for, then the system returns a graph with the class percentage that the predictor assigns to the entity related to the requested address. Among the information, will be available the cluster label assigned to the entity and the version of the used classifier.
 
-![alt text](example.jpg "Example")
+![alt text](example.png "Example")
 
 ### Second Call (Class list)
 To see the list of the available classes during the classification and their abbreviations. This call is useful to know the training classes and for example for using the result in the third call. To get the list of the available classes, the user must check the second radio button and then click on the button, without introducing any other information.
